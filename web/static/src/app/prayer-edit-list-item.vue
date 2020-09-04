@@ -37,7 +37,14 @@
         methods: {
             clickButton(){
                 if(this.isEdit){
-                    console.log("SAVE CHANGE");
+                    this.$ajax.post('/api', {
+                        id: this.id,
+                        prayer: this.prayer,
+                        is_public: this.isPublic,
+                        approved: this.approved,
+                    }).then( response => {
+                        console.log("RESPONSE VON ÄNDERUNG!", response);
+                    });
                 }else{
                     console.log("CHANGE TO EDIT MODE!");
                 }

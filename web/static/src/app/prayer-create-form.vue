@@ -27,14 +27,12 @@
         },
         methods: {
             dump: function(){
-               
                 this.$ajax.post('/api', {
                     prayer: this.prayer,
                     is_public: this.isPublic,
                 }).then( response => {
                     console.log("RESPONSE", response);
                 });
-
             }
         }
       }
