@@ -9,3 +9,11 @@ type Prayer struct {
 	Approved bool      `json:"approved"`
 	Date     time.Time `json:"date"`
 }
+
+var JsonToSql = map[string]string{
+	"id":        "id",
+	"prayer":    "prayer_text",
+	"is_public": "public",
+	"created":   "date",
+	"approved":  "approved",
+}

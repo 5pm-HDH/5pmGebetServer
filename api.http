@@ -11,3 +11,12 @@ GET http://localhost:80/api?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb
 Accept: application/json
 
 ###
+
+PUT http://localhost:80/api?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb
+Content-Type: application/json
+
+{
+  "id": 1,
+  "is_public": false,
+  "approved": true
+}
