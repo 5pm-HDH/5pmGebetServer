@@ -14,10 +14,16 @@ func SetDatabase(conn *sql.DB) {
 }
 
 func apiGet(w http.ResponseWriter, r *http.Request) {
+	key := r.URL.Query().Get("key")
+	if key != "tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb" {
+		w.WriteHeader(401)
+		return
+	}
 
-	rows, err := database.Query("SELECT id,prayer_text,approved,public,created FROM prayer WHERE created = ?", time.Now())
+	rows, err := database.Query("SELECT id,prayer_text,approved,public,created FROM prayer WHERE created = ?", time.Now().Format("2006-01-02"))
 	if err != nil {
 		w.WriteHeader(400)
+		_, _ = w.Write([]byte("ERROR GETTING"))
 		return
 	}
 
@@ -27,6 +33,8 @@ func apiGet(w http.ResponseWriter, r *http.Request) {
 		err := rows.Scan(&p.Id, &p.Content, &p.Approved, &p.Public, &p.Date)
 		if err != nil {
 			w.WriteHeader(400)
+			_, _ = w.Write([]byte("ERROR READING"))
+
 			return
 		}
 		prayers = append(prayers, p)
@@ -36,6 +44,8 @@ func apiGet(w http.ResponseWriter, r *http.Request) {
 	err = enc.Encode(prayers)
 	if err != nil {
 		w.WriteHeader(400)
+		_, _ = w.Write([]byte("ERROR ENCODE"))
+
 		return
 	}
 
@@ -57,7 +67,8 @@ func apiPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx, _ := database.Begin()
-	_, err = tx.Exec("INSERT INTO prayer(prayer_text, public) VALUES (?,?)", p.Content, p.Public)
+	_, err = tx.Exec("INSERT INTO prayer(prayer_text, public, created, approved, state, original_test) VALUES (?,?,CURRENT_DATE,0,0,?)",
+		p.Content, p.Public, p.Content)
 
 	if err != nil {
 		w.WriteHeader(400)

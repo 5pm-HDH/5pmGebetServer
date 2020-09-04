@@ -4,9 +4,9 @@ create table prayer
 		constraint prayer_pk
 			primary key autoincrement,
 	prayer_text TEXT,
-	approved int,
-	public int,
+	approved INTEGER DEFAULT 0,
+	public INTEGER DEFAULT 0,
 	created DATE,
-	state int,
-	original_test int
+	state INTEGER DEFAULT 0,
+	original_test TEXT
 );

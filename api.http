@@ -1,0 +1,13 @@
+POST http://localhost:80/api
+Content-Type: application/json
+
+{
+  "prayer": "Ich bin krank",
+  "is_public": true
+}
+
+###
+GET http://localhost:80/api?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb
+Accept: application/json
+
+###
