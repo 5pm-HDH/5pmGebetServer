@@ -9,16 +9,14 @@
         data(){
             return {
                 prayerList: [
-                    {id: 1, prayer: 'Ich bin krank!', is_public: false, is_approved: true},
-                    {id: 2, prayer: 'Ich bin kränker!', is_public: false, is_approved: true},
-                    {id: 3, prayer: 'Ich bin cool', is_public: false, is_approved: true},
-                    {id: 4, prayer: 'Ich bin traurig', is_public: false, is_approved: true},
-                    {id: 5, prayer: 'Ich bin betrübt', is_public: false, is_approved: true},
+                //    {id: 1, prayer: 'Ich bin krank!', is_public: false, is_approved: true},
                 ],
             };
         },
         mounted(){
-
+            this.$ajax.get("/api?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb", {}).then( response => {
+                this.prayerList = response.data;
+            });
         },
         methods: {
             
