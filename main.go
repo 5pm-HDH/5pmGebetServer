@@ -64,6 +64,8 @@ func main() {
 	flag.Parse()
 
 	http.HandleFunc("/api", web.ApiHandle)
+	http.HandleFunc("/api/beamer", web.ApiBeamer)
+	http.HandleFunc("/api/key", web.ApiKey)
 	http.Handle("/", http.FileServer(http.Dir(*directory)))
 
 	log.Printf("Serving %s on HTTP port: %s\n", *directory, *port)

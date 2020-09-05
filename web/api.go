@@ -3,7 +3,10 @@ package web
 import (
 	"database/sql"
 	"encoding/json"
+	"io"
+	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -14,38 +17,44 @@ func SetDatabase(conn *sql.DB) {
 	database = conn
 }
 
-func apiGet(w http.ResponseWriter, r *http.Request) {
-	key := r.URL.Query().Get("key")
-	if key != "tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb" {
-		w.WriteHeader(401)
-		return
-	}
+func apiAuthenticate(accType int, key string) bool {
+	keys := DatabaseGetKeys(accType)
 
-	rows, err := database.Query("SELECT id,prayer_text,approved,public,created FROM prayer WHERE created = ?", time.Now().Format("2006-01-02"))
-	if err != nil {
-		w.WriteHeader(400)
-		_, _ = w.Write([]byte("ERROR GETTING"))
-		return
-	}
-
-	var prayers []Prayer
-	for rows.Next() {
-		var p Prayer
-		err := rows.Scan(&p.Id, &p.Content, &p.Approved, &p.Public, &p.Date)
-		if err != nil {
-			w.WriteHeader(400)
-			_, _ = w.Write([]byte("ERROR READING"))
-			return
+	for _, k := range keys {
+		if k == key {
+			return true
 		}
-		prayers = append(prayers, p)
+	}
+
+	return false
+}
+
+/*
+	API function to get all prayers of today!
+	authentication with query key
+*/
+func apiGet(w http.ResponseWriter, r *http.Request) {
+	//authenticate with key in QUERY
+	key := r.URL.Query().Get("key")
+	if !apiAuthenticate(1, key) {
+		w.WriteHeader(401)
+		_, _ = io.WriteString(w, "401 Unauthorized")
+		return
+	}
+
+	//get to days prayer from database
+	prayers, err := DatabaseGetPrayerToday()
+	if err != nil {
+		w.WriteHeader(500)
+		log.Println(err)
+		return
 	}
 
 	enc := json.NewEncoder(w)
 	err = enc.Encode(prayers)
 	if err != nil {
-		w.WriteHeader(400)
-		_, _ = w.Write([]byte("ERROR ENCODE"))
-
+		w.WriteHeader(500)
+		log.Println(err)
 		return
 	}
 
@@ -60,23 +69,15 @@ func apiPost(w http.ResponseWriter, r *http.Request) {
 	err := dec.Decode(&p)
 	if err != nil {
 		w.WriteHeader(400)
+		log.Println(err)
 		return
 	}
 	p.Date = time.Now()
 
-	tx, _ := database.Begin()
-	_, err = tx.Exec("INSERT INTO prayer(prayer_text, public, created, approved, state, original_test) VALUES (?,?,CURRENT_DATE,0,0,?)",
-		p.Content, p.Public, p.Content)
-
+	err = DatabaseInsertPrayer(p)
 	if err != nil {
-		w.WriteHeader(400)
-		_ = tx.Rollback()
-		return
-	}
-
-	err = tx.Commit()
-	if err != nil {
-		w.WriteHeader(400)
+		w.WriteHeader(500)
+		log.Println(err)
 		return
 	}
 
@@ -86,23 +87,25 @@ func apiPost(w http.ResponseWriter, r *http.Request) {
 func apiPut(w http.ResponseWriter, r *http.Request) {
 
 	key := r.URL.Query().Get("key")
-	if key != "tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb" {
+	if !apiAuthenticate(1, key) {
 		w.WriteHeader(401)
+		_, _ = io.WriteString(w, "401 Unauthorized")
 		return
 	}
 
 	dec := json.NewDecoder(r.Body)
 	var prayer map[string]interface{}
 	err := dec.Decode(&prayer)
-
 	if err != nil {
 		w.WriteHeader(400)
+		log.Println(err)
 		return
 	}
 
 	tx, err := database.Begin()
 	if err != nil {
-		w.WriteHeader(400)
+		w.WriteHeader(500)
+		log.Println(err)
 		return
 	}
 
@@ -118,7 +121,8 @@ func apiPut(w http.ResponseWriter, r *http.Request) {
 
 		_, err = tx.Exec(query, value, id)
 		if err != nil {
-			w.WriteHeader(400)
+			w.WriteHeader(500)
+			log.Println(err)
 			_ = tx.Rollback()
 			return
 		}
@@ -127,7 +131,8 @@ func apiPut(w http.ResponseWriter, r *http.Request) {
 
 	err = tx.Commit()
 	if err != nil {
-		w.WriteHeader(400)
+		w.WriteHeader(500)
+		log.Println(err)
 		return
 	}
 
@@ -147,4 +152,97 @@ func ApiHandle(w http.ResponseWriter, r *http.Request) {
 		apiPut(w, r)
 		return
 	}
+}
+
+func ApiBeamer(w http.ResponseWriter, r *http.Request) {
+	key := r.URL.Query().Get("key")
+	if !apiAuthenticate(2, key) {
+		w.WriteHeader(401)
+		_, _ = io.WriteString(w, "401 Unauthorized")
+		return
+	}
+
+	l := r.URL.Query().Get("l")
+	i, err := strconv.Atoi(l)
+	if err != nil {
+		i = 0
+	}
+
+	prayers, err := DatabaseGetPrayerTodayPublicApproved(i)
+	if err != nil {
+		w.WriteHeader(500)
+		log.Println(err)
+		return
+	}
+
+	enc := json.NewEncoder(w)
+	err = enc.Encode(prayers)
+	if err != nil {
+		w.WriteHeader(500)
+		log.Println(err)
+		return
+	}
+
+	w.WriteHeader(200)
+
+}
+
+func ApiKey(w http.ResponseWriter, r *http.Request) {
+	key := r.URL.Query().Get("key")
+	if !apiAuthenticate(2, key) {
+		w.WriteHeader(401)
+		_, _ = io.WriteString(w, "401 Unauthorized")
+		return
+	}
+
+	switch r.Method {
+	case "PUT":
+		// DELETE an AUTH KEY
+		dec := json.NewDecoder(r.Body)
+		var k AuthKey
+		err := dec.Decode(&k)
+		if err != nil {
+			w.WriteHeader(400)
+			log.Println(err)
+			return
+		}
+		_, err = database.Exec("DELETE FROM authorization WHERE auth_key = ?", k.Key)
+		if err != nil {
+			w.WriteHeader(500)
+			log.Println(err)
+			return
+		}
+
+	case "GET":
+
+		keys := DatabaseGetAllKeys()
+		enc := json.NewEncoder(w)
+		err := enc.Encode(keys)
+		if err != nil {
+			w.WriteHeader(500)
+			log.Println(err)
+			return
+		}
+
+	case "POST":
+		// ADD an AUTH KEY
+		dec := json.NewDecoder(r.Body)
+		var k AuthKey
+		err := dec.Decode(&k)
+		if err != nil {
+			w.WriteHeader(400)
+			log.Println(err)
+			return
+		}
+
+		_, err = database.Exec("INSERT INTO authorization(auth_key, type) VALUES (?,?)", k.Key, k.Type)
+		if err != nil {
+			w.WriteHeader(500)
+			log.Println(err)
+			return
+		}
+	}
+
+	w.WriteHeader(200)
+
 }

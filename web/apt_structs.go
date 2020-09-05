@@ -10,6 +10,16 @@ type Prayer struct {
 	Date     time.Time `json:"date"`
 }
 
+type PrayerSlim struct {
+	Id      string `json:"id"`
+	Content string `json:"prayer"`
+}
+
+type AuthKey struct {
+	Key  string `json:"key"`
+	Type string `json:"type"`
+}
+
 var JsonToSql = map[string]string{
 	"id":        "id",
 	"prayer":    "prayer_text",
