@@ -19,8 +19,7 @@
 *  **URL Params**
 
    **Required:**
-    master key authentication
-   `key=[string]`
+   `key=[string]` (master key authentication)
 
 
 * **Data Params**
@@ -40,9 +39,9 @@
 * **Notes:**
 
 
-**New Authentication Key**
+**Delete Authentication Key**
 ----
-  Delete key from authentication table
+  Delete a key from authentication table
   
 * **URL**
 
@@ -55,8 +54,7 @@
 *  **URL Params**
 
    **Required:**
-    master key authentication
-   `key=[string]`
+   `key=[string]` (master key authentication)
 
 
 * **Data Params**
