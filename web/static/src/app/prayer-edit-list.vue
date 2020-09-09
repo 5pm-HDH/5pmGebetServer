@@ -1,6 +1,9 @@
 <template>
     <div>
-        <prayer-edit-list-item v-for="item in prayerList" :key="item.id" :data="item"></prayer-edit-list-item>
+        <h3>Nicht bestätigt:</h3>
+        <prayer-edit-list-item v-for="item in notApprovedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
+        <h3>Bestätigt:</h3>
+        <prayer-edit-list-item v-for="item in approvedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
     </div>
 </template>
 
@@ -13,13 +16,45 @@
                 ],
             };
         },
+        computed: {
+            approvedPrayerList: {
+                get(){
+                    return this.sortedPrayerList.filter( prayer => {
+                        return prayer.approved;
+                    });
+                }
+            },
+            notApprovedPrayerList: {
+                get(){
+                    return this.sortedPrayerList.filter( prayer => {
+                        return !prayer.approved;
+                    });
+                }
+            },
+            sortedPrayerList: {
+                get(){
+                    return this.prayerList.sort( (prayerA, prayerB) => {
+                        return parseInt(prayerA.id) - parseInt(prayerB.id);
+                    });
+                }
+            }
+        },
         mounted(){
-            this.$ajax.get("/api?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb", {}).then( response => {
-                this.prayerList = response.data;
+            this.loadPrayerList();
+
+            setInterval(this.loadPrayerList, 1000);
+
+            this.$on('reload-prayer-list', ev => {
+                this.loadPrayerList();
             });
         },
         methods: {
-            
+            loadPrayerList(){
+                this.$ajax.get("/api?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb", {}).then( response => {
+                    this.prayerList = response.data;
+                });
+            }
+
         }
       }
 </script>
