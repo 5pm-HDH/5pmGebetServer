@@ -8,8 +8,9 @@
             <input type="checkbox" id="confirmField" v-model="isPublic">
             <label class="label-inline" for="confirmField">Öffentlich (anonym) beten</label>
         </div>
-        <input class="button-primary" value="Senden" v-on:click="sendForm">
+        <br>
     </fieldset>
+    <a class="button-primary button" v-on:click="sendForm">Senden</a>
     </form>
 
 </template>
@@ -39,11 +40,20 @@
                     prayer: this.prayer,
                     is_public: this.isPublic,
                 }).then( response => {
-                    console.log("RESPONSE", response);
-                }).error( error => {
+                    
                     this.$eventHub.$emit('notification-show', {
-                        message: "Fehler beim Einreichen der"
+                        message: "Gebetsanliegen wurde abgesendet."
                     });
+
+                    this.prayer = null;
+                    this.isPublic = false;
+
+                }).error( error => {
+
+                    this.$eventHub.$emit('notification-show', {
+                        message: "Fehler beim Absenden."
+                    });
+
                 });
             }
         }
