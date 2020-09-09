@@ -1,6 +1,6 @@
 <template>
     <blockquote>
-    <p><em>{{ prayer }}</em> - {{ date }}</p>
+    <p><em>{{ prayer }}</em></p>
     </blockquote>
 
 </template>
