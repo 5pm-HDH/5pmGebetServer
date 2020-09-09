@@ -15,6 +15,6 @@ to reset the database and server just delete the `pray.db` and redo the startup 
 
 
 ## API's
-[/api/](./api_.md)
-[/api/key](./api_key.md)
-[/api/beamer](./api_beamer.md)
+* [/api/](./api_.md)
+* [/api/key](./api_key.md)
+* [/api/beamer](./api_beamer.md)
