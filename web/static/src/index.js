@@ -1,8 +1,11 @@
 import Vue from 'vue';
 import ajax from './ajax';
 
+// PROTOTYPE
 Vue.prototype.$ajax = ajax;
+Vue.prototype.$eventHub = new Vue();
 
+// COMPONENTS
 import example from './app/example.vue';
 import prayerCreateForm from './app/prayer-create-form.vue';
 import prayerList from './app/prayer-list.vue';

@@ -2,7 +2,7 @@
     <form>
     <fieldset>
         <label for="commentField">Gebet</label>
-        <textarea placeholder="Hi CJ …" id="commentField" v-model="prayer"></textarea>
+        <textarea placeholder="Gebetsanliegen" id="commentField" v-model="prayer"></textarea>
         
         <div class="float-left">
             <input type="checkbox" id="confirmField" v-model="isPublic">
@@ -19,7 +19,7 @@
         data(){
             return {
                 prayer: null,
-                isPublic: false
+                isPublic: true
             };
         },
         mounted(){
