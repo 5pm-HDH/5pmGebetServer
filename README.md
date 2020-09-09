@@ -12,3 +12,8 @@ this can be used to insert a Type-0-Key (Master Key) into the server
 
 ## reset
 to reset the database and server just delete the `pray.db` and redo the startup stepps and insert new master key
+
+
+##API's
+
+[/api/key](./api_key.md)
