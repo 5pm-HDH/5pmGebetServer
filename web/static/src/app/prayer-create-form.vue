@@ -8,7 +8,7 @@
             <input type="checkbox" id="confirmField" v-model="isPublic">
             <label class="label-inline" for="confirmField">Öffentlich (anonym) beten</label>
         </div>
-        <input class="button-primary" value="Senden" v-on:click="dump">
+        <input class="button-primary" value="Senden" v-on:click="sendForm">
     </fieldset>
     </form>
 
@@ -26,12 +26,24 @@
 
         },
         methods: {
-            dump: function(){
+            sendForm: function(){
+                if(this.prayer == null || this.prayer == ""){
+                    this.$eventHub.$emit('notification-show', {
+                        message: "Bitte Gebetsanliegen ausfüllen."
+                    });
+                    return;
+                }
+
+
                 this.$ajax.post('/api', {
                     prayer: this.prayer,
                     is_public: this.isPublic,
                 }).then( response => {
                     console.log("RESPONSE", response);
+                }).error( error => {
+                    this.$eventHub.$emit('notification-show', {
+                        message: "Fehler beim Einreichen der"
+                    });
                 });
             }
         }
