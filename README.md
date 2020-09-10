@@ -20,6 +20,6 @@ to reset the database and server just delete the `pray.db` and redo the startup 
 * [/api/beamer](./api_beamer.md)
 
 ## Deployment
-# using docker
+### using docker
 * Work in Progress
 
