@@ -17,6 +17,9 @@ func SetDatabase(conn *sql.DB) {
 	database = conn
 }
 
+// try to find this auth_key in the corresponding type table
+// true if the key is valid
+// false if no match was found
 func apiAuthenticate(accType int, key string) bool {
 	keys := DatabaseGetKeys(accType)
 
@@ -59,8 +62,10 @@ func apiGet(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//API function to insert a new prayer into the database
 func apiPost(w http.ResponseWriter, r *http.Request) {
 
+	//decode json request
 	dec := json.NewDecoder(r.Body)
 	var p Prayer
 	err := dec.Decode(&p)
@@ -71,6 +76,7 @@ func apiPost(w http.ResponseWriter, r *http.Request) {
 	}
 	p.Date = time.Now()
 
+	//insert into database
 	err = DatabaseInsertPrayer(p)
 	if err != nil {
 		w.WriteHeader(500)
@@ -79,8 +85,10 @@ func apiPost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//API function to insert a new prayer into the database
 func apiPut(w http.ResponseWriter, r *http.Request) {
 
+	//authenticate with key in QUERY
 	key := r.URL.Query().Get("key")
 	if !apiAuthenticate(1, key) {
 		w.WriteHeader(401)
@@ -88,6 +96,7 @@ func apiPut(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//decode json request
 	dec := json.NewDecoder(r.Body)
 	var prayer map[string]interface{}
 	err := dec.Decode(&prayer)
@@ -97,23 +106,30 @@ func apiPut(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//begin change transaction
 	tx, err := database.Begin()
 	if err != nil {
 		w.WriteHeader(500)
 		log.Println(err)
 		return
 	}
-
-	id := int(prayer["id"].(float64))
+	// id attribute must be given
+	id, _ := strconv.Atoi(prayer["id"].(string))
+	// update the value in the database for each other attribute in the request
 	for key, value := range prayer {
 		if key == "id" {
 			continue
 		}
 
+		// map only valid json keys to sql keys
+		// this will fail if the users puts any other string here
+		// -> NO SQL INJECTION POSSIBLE
 		sqlKey := JsonToSql[key]
+
 		query := "UPDATE prayer SET % = ? WHERE id = ?"
 		query = strings.Replace(query, "%", sqlKey, 1)
 
+		//update one attribute
 		_, err = tx.Exec(query, value, id)
 		if err != nil {
 			w.WriteHeader(500)
@@ -124,6 +140,7 @@ func apiPut(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	//commit database transaction
 	err = tx.Commit()
 	if err != nil {
 		w.WriteHeader(500)
@@ -133,6 +150,7 @@ func apiPut(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//handle switch for /api to distinguish between Methods (GET,POST,PUT)
 func ApiHandle(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
@@ -147,6 +165,7 @@ func ApiHandle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Beamer API to only return reduced filtered and approved data
 func ApiBeamer(w http.ResponseWriter, r *http.Request) {
 	key := r.URL.Query().Get("key")
 	if !apiAuthenticate(2, key) {
@@ -155,19 +174,24 @@ func ApiBeamer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// optional argument to filter
+	// only get prayer with id's bigger than <l>
 	l := r.URL.Query().Get("l")
 	i, err := strconv.Atoi(l)
 	if err != nil {
 		i = 0
 	}
 
+	//database request
 	prayers, err := DatabaseGetPrayerTodayPublicApproved(i)
+	//only PlayerSlim(reduced) prayers are returned
 	if err != nil {
 		w.WriteHeader(500)
 		log.Println(err)
 		return
 	}
 
+	//encode response
 	enc := json.NewEncoder(w)
 	err = enc.Encode(prayers)
 	if err != nil {
@@ -177,6 +201,7 @@ func ApiBeamer(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Key management API
 func ApiKey(w http.ResponseWriter, r *http.Request) {
 	key := r.URL.Query().Get("key")
 	if !apiAuthenticate(2, key) {

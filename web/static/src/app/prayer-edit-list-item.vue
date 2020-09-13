@@ -36,7 +36,13 @@
         methods: {
             clickButton(){
                 if(this.isEdit){
-                    this.$ajax.put('/api?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb', {
+                    // get and forward the key from the user to the database backend
+                    let queryString = window.location.search;
+                    let params = new URLSearchParams(queryString);
+                    let key = parseInt(params.get("key"));
+                    //TODO: make function for multiple uses
+
+                    this.$ajax.put('/api?key='+key, {
                         id: this.id,
                         prayer: this.prayer,
                         is_public: this.isPublic,

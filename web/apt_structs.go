@@ -10,6 +10,7 @@ type Prayer struct {
 	Date     time.Time `json:"date"`
 }
 
+//reduced Prayer that only contains the text and id
 type PrayerSlim struct {
 	Id      string `json:"id"`
 	Content string `json:"prayer"`
@@ -20,6 +21,7 @@ type AuthKey struct {
 	Type string `json:"type"`
 }
 
+//lookup table to convert json tags to SQL columns
 var JsonToSql = map[string]string{
 	"id":        "id",
 	"prayer":    "prayer_text",

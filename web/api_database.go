@@ -5,9 +5,11 @@ import (
 	"time"
 )
 
+//get all prayers of today from the database
 func DatabaseGetPrayerToday() ([]Prayer, error) {
 	//query the database
-	rows, err := database.Query("SELECT id,prayer_text,approved,public,created FROM prayer WHERE created = ?", time.Now().Format("2006-01-02"))
+	yesterday := time.Now().Add(-24 * time.Hour).Unix()
+	rows, err := database.Query("SELECT id,prayer_text,approved,public,created FROM prayer WHERE created > ? ", yesterday)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -28,17 +30,22 @@ func DatabaseGetPrayerToday() ([]Prayer, error) {
 	return prayers, nil
 }
 
+//insert prayer into the database
 func DatabaseInsertPrayer(p Prayer) error {
+	// begin transaction
 	tx, _ := database.Begin()
-	_, err := tx.Exec("INSERT INTO prayer(prayer_text, public, created, approved, state, original_test) VALUES (?,?,CURRENT_DATE,0,0,?)",
-		p.Content, p.Public, p.Content)
+	// insert
+	_, err := tx.Exec("INSERT INTO prayer(prayer_text, public, created, approved, state, original_test) VALUES (?,?,?,0,0,?)",
+		p.Content, p.Public, time.Now().Unix(), p.Content)
 
+	// on error rollback
 	if err != nil {
 		_ = tx.Rollback()
 		log.Println(err)
 		return err
 	}
 
+	//commit transaction
 	err = tx.Commit()
 	if err != nil {
 		log.Println(err)
@@ -47,9 +54,11 @@ func DatabaseInsertPrayer(p Prayer) error {
 	return nil
 }
 
+//Get all PrayerSlim of today in the database (BEAMER VIEW)
 func DatabaseGetPrayerTodayPublicApproved(lastId int) ([]PrayerSlim, error) {
 	//query the database
-	rows, err := database.Query("SELECT id,prayer_text FROM prayer WHERE approved = 1 AND public = 1 AND created = ? AND id > ? ORDER BY id", time.Now().Format("2006-01-02"), lastId)
+	yesterday := time.Now().Add(-24 * time.Hour).Unix()
+	rows, err := database.Query("SELECT id,prayer_text FROM prayer WHERE approved = 1 AND public = 1 AND created > ? AND id > ? ORDER BY id", yesterday, lastId)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -70,6 +79,7 @@ func DatabaseGetPrayerTodayPublicApproved(lastId int) ([]PrayerSlim, error) {
 	return prayers, nil
 }
 
+//get all auth_keys of a given type/category
 func DatabaseGetKeys(keyType int) []string {
 	var keys []string
 	rows, err := database.Query("SELECT auth_key FROM authorization WHERE type = 0 OR type = ? ", keyType)
@@ -91,6 +101,7 @@ func DatabaseGetKeys(keyType int) []string {
 	return keys
 }
 
+//get all auth_keys in the database.
 func DatabaseGetAllKeys() []AuthKey {
 	var keys []AuthKey
 	rows, err := database.Query("SELECT * FROM authorization")
