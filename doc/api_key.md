@@ -73,3 +73,38 @@
 
 * **Notes:**
 
+
+
+**Show Authentication Keys**
+----
+  Show all keys from authentication table
+  
+* **URL**
+
+  /api/key
+
+* **Method:**
+
+  `GET` 
+  
+*  **URL Params**
+
+   **Required:**
+   `key=[string]` (master key authentication)
+  
+
+* **Success Response:**
+  
+  * **Code:** 200 <br />
+  * **Content:** `[ { key : <super_secure_key> , type: <t> }, ... ]`
+
+ 
+* **Error Response:**
+
+  * **Code:** 401 UNAUTHORIZED <br />
+
+
+* **Notes:**
+
+
+
