@@ -21,5 +21,12 @@ to reset the database and server just delete the `pray.db` and redo the startup 
 
 ## Deployment
 ### using docker
-* Work in Progress
+**BUILD**
+```shell script
+docker build --tag 5pm --build-arg MASTER_KEY='<KEY>' --build-arg PORT=8080 .
+```
 
+**RUN**
+```shell script
+docker run --publish 8080:8080 --detach --name 5pm 5pm
+```
