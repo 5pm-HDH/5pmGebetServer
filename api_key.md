@@ -77,7 +77,7 @@
 
 **Show Authentication Keys**
 ----
-  Delete a key from authentication table
+  Show all keys from authentication table
   
 * **URL**
 
