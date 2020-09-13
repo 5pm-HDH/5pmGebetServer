@@ -31,7 +31,13 @@
         methods: {
             loadPrayerList()
             {
-                this.$ajax.get("/api?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb", {}).then( response => {
+              // get and forward the key from the user to the database backend
+              let queryString = window.location.search;
+              let params = new URLSearchParams(queryString);
+              let key = parseInt(params.get("key"));
+              //TODO: make function for multiple uses
+
+                this.$ajax.get("/api?key=" + key, {}).then( response => {
                     this.prayerList = response.data;
                 });
             }
