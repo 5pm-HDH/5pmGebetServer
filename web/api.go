@@ -57,9 +57,6 @@ func apiGet(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-
-	w.WriteHeader(200)
-
 }
 
 func apiPost(w http.ResponseWriter, r *http.Request) {
@@ -80,8 +77,6 @@ func apiPost(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-
-	w.WriteHeader(200)
 }
 
 func apiPut(w http.ResponseWriter, r *http.Request) {
@@ -136,8 +131,6 @@ func apiPut(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(200)
-
 }
 
 func ApiHandle(w http.ResponseWriter, r *http.Request) {
@@ -182,9 +175,6 @@ func ApiBeamer(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-
-	w.WriteHeader(200)
-
 }
 
 func ApiKey(w http.ResponseWriter, r *http.Request) {
@@ -242,7 +232,4 @@ func ApiKey(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-
-	w.WriteHeader(200)
-
 }
