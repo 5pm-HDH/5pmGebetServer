@@ -54,7 +54,7 @@
                 // get and forward the key from the user to the database backend
                 let queryString = window.location.search;
                 let params = new URLSearchParams(queryString);
-                let key = parseInt(params.get("key"));
+                let key = params.get("key");
                 //TODO: make function for multiple uses
 
                 this.$ajax.get("/api?key=" + key, {}).then( response => {
