@@ -48,3 +48,8 @@ func openDatabase() *sql.DB {
 	}
 	return db
 }
+
+func setMasterKey(key string, db *sql.DB) error {
+	_, err := db.Exec("INSERT INTO authorization(auth_key) VALUES(?)", key)
+	return err
+}
