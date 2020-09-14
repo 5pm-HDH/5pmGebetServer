@@ -16,7 +16,8 @@
         computed: {
             approvedPrayerList: function(){
                 return this.prayerList.filter( prayer => {
-                    return prayer.approved;
+                  // FIXED && prayer.is_public to also filter that the prayer is public
+                    return prayer.approved && prayer.is_public;
                 });
             },
             latestPrayerList: function(){
