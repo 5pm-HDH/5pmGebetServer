@@ -30,7 +30,7 @@ func executeSqlFile(filename string, db *sql.DB) {
 	}
 }
 
-func openDatabase() *sql.DB {
+func openDatabase(key string) *sql.DB {
 	// check if the sqlite file exists
 	create := true
 	if fileExists("./pray.db") {
@@ -45,6 +45,7 @@ func openDatabase() *sql.DB {
 
 	if create {
 		executeSqlFile("./ddl.sql", db)
+		log.Println(db.Exec("INSERT INTO authorization(auth_key) VALUES(?)", key))
 	}
 	return db
 }
