@@ -8,14 +8,6 @@ import (
 )
 
 func main() {
-
-	db := openDatabase()
-	defer db.Close()
-	web.SetDatabase(db)
-
-	//port := flag.String("p", "8080", "port to serve on")
-	//directory := flag.String("d", "web/static/", "the directory of static file to host")
-	//flag.Parse()
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("please specify a port in $PORT")
@@ -25,10 +17,10 @@ func main() {
 	if masterkey == "" {
 		log.Fatal("pleas set a master key in $MASTERKEY")
 	}
-	err := setMasterKey(masterkey, db)
-	if err != nil {
-		log.Fatalf("error setting master key: %v", err)
-	}
+
+	db := openDatabase(masterkey)
+	defer db.Close()
+	web.SetDatabase(db)
 
 	directory := os.Getenv("DIRECTORY")
 	if directory == "" {
