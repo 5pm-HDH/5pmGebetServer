@@ -204,7 +204,7 @@ func ApiView(w http.ResponseWriter, r *http.Request) {
 //Key management API
 func ApiKey(w http.ResponseWriter, r *http.Request) {
 	key := r.URL.Query().Get("key")
-	if !apiAuthenticate(2, key) {
+	if !apiAuthenticate(0, key) {
 		w.WriteHeader(401)
 		_, _ = io.WriteString(w, "401 Unauthorized")
 		return
