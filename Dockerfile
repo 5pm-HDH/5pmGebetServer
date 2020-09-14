@@ -1,5 +1,5 @@
 # STAGE 1: Go build
-FROM golang:buster-slim AS build
+FROM golang:buster AS build
 
 RUN apt-get update \
  && apt-get install build-essential sqlite3 -y \
@@ -9,11 +9,7 @@ RUN apt-get update \
 WORKDIR /5pmGebetServer
 COPY . .
 
-ARG MASTER_KEY
-RUN sqlite3 pray.db < ddl.sql \
-# && sqlite3 pray.db "INSERT INTO authorization(auth_key) VALUES($MASTER_KEY)"
-
-RUN CGO_ENABLED=0 go build -o 5pm.bin main.go
+RUN go build -o 5pm.bin main.go database.go
 
 
 # STAGE 2: UI build
@@ -26,16 +22,18 @@ RUN npm install && npm start
 
 
 # STAGE 3: Final image
-FROM alpine:latest
-
-WORKDIR /5pm
-COPY --from=build /5pmGebetServer/5pm.bin .
-COPY --from=build /5pmGebetServer/pray.db .
+FROM debian:stable-slim
 
 WORKDIR /5pm/web/static
 COPY --from=ui /5pmUI .
 
+WORKDIR /5pm
+COPY --from=build /5pmGebetServer/5pm.bin .
+COPY --from=build /5pmGebetServer/ddl.sql .
+
 EXPOSE 8080
 
+RUN chown -R 1000:1000 /5pm
+
 USER 1000
-ENTRYPOINT "/5pm/5pm.bin -p ${PORT} -m ${MASTERKEY}"
+ENTRYPOINT "./5pm.bin"
