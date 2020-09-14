@@ -18,7 +18,7 @@ func main() {
 	flag.Parse()
 
 	http.HandleFunc("/api", web.ApiHandle)
-	http.HandleFunc("/api/beamer", web.ApiBeamer)
+	http.HandleFunc("/api/view", web.ApiView)
 	http.HandleFunc("/api/key", web.ApiKey)
 	http.Handle("/", http.FileServer(http.Dir(*directory)))
 

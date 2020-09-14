@@ -54,7 +54,7 @@ func DatabaseInsertPrayer(p Prayer) error {
 	return nil
 }
 
-//Get all PrayerSlim of today in the database (BEAMER VIEW)
+//Get all PrayerSlim of today in the database (VIEW)
 func DatabaseGetPrayerTodayPublicApproved(lastId int) ([]PrayerSlim, error) {
 	//query the database
 	yesterday := time.Now().Add(-24 * time.Hour).Unix()

@@ -6,7 +6,7 @@
   3 key types:
   * `Type 0` Master-Key
   * `Type 1` Beter-Key / Editor-Key
-  * `Type 2` Beamer-Key / Monitor-Key
+  * `Type 2` View-Key / Monitor-Key
 
 * **URL**
 

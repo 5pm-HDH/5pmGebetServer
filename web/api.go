@@ -165,8 +165,8 @@ func ApiHandle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//Beamer API to only return reduced filtered and approved data
-func ApiBeamer(w http.ResponseWriter, r *http.Request) {
+//View API to only return reduced filtered and approved data
+func ApiView(w http.ResponseWriter, r *http.Request) {
 	key := r.URL.Query().Get("key")
 	if !apiAuthenticate(2, key) {
 		w.WriteHeader(401)

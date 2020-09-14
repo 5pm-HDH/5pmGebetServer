@@ -1,4 +1,4 @@
-#/api/beamer
+#/api/view
 
 ## Get Prayers
 
@@ -8,7 +8,7 @@ The prayers json objects are shorten to only contain text and id
 Opt.: request only Prayers with an id bigger than a given id.
 
 ### **URL**
- * **`/api/beamer`**
+ * **`/api/view`**
 
 ### **Method:**
  * **`GET`** 

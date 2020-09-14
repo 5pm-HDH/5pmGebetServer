@@ -1,5 +1,5 @@
 ###
-GET http://localhost:80/api/beamer?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb
+GET http://localhost:80/api/view?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb
 Accept: application/json
 
 ###

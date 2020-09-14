@@ -17,7 +17,7 @@ to reset the database and server just delete the `pray.db` and redo the startup 
 ## API's
 * [/api/](doc/api_.md)
 * [/api/key](doc/api_key.md)
-* [/api/beamer](doc/api_beamer.md)
+* [/api/view](doc/api_view.md)
 
 ## Deployment
 ### using docker
