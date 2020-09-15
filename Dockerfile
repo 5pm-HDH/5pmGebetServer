@@ -2,9 +2,7 @@
 FROM golang:buster AS build
 
 RUN apt-get update \
- && apt-get install build-essential sqlite3 -y \
- && go get github.com/mattn/go-sqlite3 \
- && go install github.com/mattn/go-sqlite3
+ && apt-get install build-essential sqlite3 -y
 
 WORKDIR /5pmGebetServer
 COPY . .
@@ -12,7 +10,7 @@ COPY . .
 RUN test -z $(gofmt -l .) \
  && go test ./... \
  && go vet -v ./...
-RUN go build -o 5pm.bin main.go database.go
+RUN go build -o 5pm.bin .
 
 
 # STAGE 2: UI build
