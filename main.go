@@ -10,15 +10,22 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		log.Fatal("please specify a port in $PORT")
+		port = "8080"
+		log.Printf("using default port: %s", port)
+	}
+
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		dbPath = "./pray.db"
+		log.Printf("using default db path: %s", dbPath)
 	}
 
 	masterkey := os.Getenv("MASTERKEY")
 	if masterkey == "" {
-		log.Fatal("pleas set a master key in $MASTERKEY")
+		log.Println("no new master key specified")
 	}
 
-	db := openDatabase(masterkey)
+	db := openDatabase(dbPath, masterkey)
 	defer db.Close()
 	web.SetDatabase(db)
 

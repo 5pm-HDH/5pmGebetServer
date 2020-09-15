@@ -1,0 +1,14 @@
+version: '3'
+services:
+  5pm:
+    image: 5pm:0.3
+    #build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DB_PATH=/data/pray.db
+      - MASTERKEY
+    restart: always
+    volumes:
+      - /var/5pm:/data:consistent

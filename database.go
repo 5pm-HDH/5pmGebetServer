@@ -30,7 +30,7 @@ func executeSqlFile(filename string, db *sql.DB) {
 	}
 }
 
-func openDatabase(key string) *sql.DB {
+func openDatabase(dbPath, key string) *sql.DB {
 	// check if the sqlite file exists
 	create := true
 	if fileExists("./pray.db") {
@@ -38,14 +38,18 @@ func openDatabase(key string) *sql.DB {
 	}
 
 	// open sql connection and database
-	db, err := sql.Open("sqlite3", "./pray.db")
+	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	if create {
 		executeSqlFile("./ddl.sql", db)
-		log.Println(db.Exec("INSERT INTO authorization(auth_key) VALUES(?)", key))
+		if key != "" {
+			log.Println(db.Exec("INSERT INTO authorization(auth_key) VALUES(?)", key))
+		} else {
+			log.Println("not inserting a master key into an empty database")
+		}
 	}
 	return db
 }
