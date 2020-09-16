@@ -46,7 +46,7 @@
                     });
 
                     this.prayer = null;
-                    this.isPublic = false;
+                    this.isPublic = true;
 
                 }).error( error => {
 

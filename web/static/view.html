@@ -3,7 +3,8 @@
 <head>
 
     <meta charset="UTF-8">
-    
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
@@ -18,8 +19,19 @@
         <notification></notification>
         <prayer-list></prayer-list>
     </div>
-    
-    
+    <style>
+    .prayer-item{
+        opacity: 0;
+        -webkit-transition: opacity 1s ease-in-out;
+        -moz-transition: opacity 1s ease-in-out;
+        -ms-transition: opacity 1s ease-in-out;
+        -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
+    }
+    .show-prayer{
+        opacity: 1;
+    }
+    </style>
     <script src="dist/main.js"></script>
 </body>
 </html>
