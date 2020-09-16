@@ -1,6 +1,6 @@
 <template>
     <div>
-        <prayer-list-item v-for="item in latestPrayerList" :key="item.id" :data="item"></prayer-list-item>
+        <prayer-list-item v-for="item in sortedPrayerList" :key="item.id" :data="item"></prayer-list-item>
     </div>
 </template>
 
@@ -14,14 +14,8 @@
             };
         },
         computed: {
-            approvedPrayerList: function(){
-                return this.prayerList.filter( prayer => {
-                  // FIXED && prayer.is_public to also filter that the prayer is public
-                    return prayer.approved && prayer.is_public;
-                });
-            },
-            latestPrayerList: function(){
-                return this.approvedPrayerList.slice(Math.max(this.approvedPrayerList.length - 5, 0))
+            sortedPrayerList: function(){
+                return this.prayerList.sort( (prayerA, prayerB) => prayerB.id - prayerA.id);
             }
         },
         mounted(){
@@ -38,7 +32,7 @@
               let key = params.get("key");
               //TODO: make function for multiple uses
 
-                this.$ajax.get("/api?key=" + key, {}).then( response => {
+                this.$ajax.get("/api/view?key=" + key, {}).then( response => {
                     this.prayerList = response.data;
                 });
             }
