@@ -1,0 +1,10 @@
+[Unit]
+Description=Refresh %i images and update containers
+Requires=dc@%i
+After=dc@%i
+
+[Timer]
+OnCalendar=*:0/15
+
+[Install]
+WantedBy=timers.target
