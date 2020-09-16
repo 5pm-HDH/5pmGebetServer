@@ -1,10 +1,34 @@
-version: '3'
+version: '3.3'
 services:
+
+services:
+
+  traefik:
+    image: "traefik:latest"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      # uncomment for testing
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=server@revwal.de"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/data/letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
   5pm:
     image: 5pm:0.3
-    #build: .
-    ports:
-      - "8080:8080"
+    container_name: 5pmServer
     environment:
       - PORT=8080
       - DB_PATH=/data/pray.db
@@ -12,3 +36,8 @@ services:
     restart: always
     volumes:
       - /var/5pm:/data:consistent
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.5pm.rule=Host(`gebet.revwal.de`)"
+      - "traefik.http.routers.5pm.entrypoints=websecure"
+      - "traefik.http.routers.5pm.tls.certresolver=myresolver"

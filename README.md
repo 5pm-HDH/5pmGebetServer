@@ -31,6 +31,8 @@ docker run -d --name 5pm --env PORT=8080 --env MASTERKEY=12345 -p 8080:8080 5pm
 ```
 
 ### using docker-compose
+do not execute this locally, as it will try to request a certificate from letsencrypt!
+
 docker-compose can manage docker deployments and allows the use of a configuration file instead of command line parameters.
 
 first, build the docker image as described above.
