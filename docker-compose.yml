@@ -29,9 +29,6 @@ services:
   5pm:
     image: 5pm:0.3
     container_name: 5pmServer
-    #build: .
-    ports:
-      - "8081:8081"
     environment:
       - PORT=8080
       - DB_PATH=/data/pray.db
