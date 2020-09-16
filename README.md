@@ -22,7 +22,7 @@ to reset the database and server just delete the ```pray.db``` and redo the star
 ### using docker
 **BUILD**
 ```shell script
-docker build -t 5pm 
+docker build -t 5pm .
 ```
 
 **RUN**
