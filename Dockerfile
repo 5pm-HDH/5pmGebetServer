@@ -7,8 +7,7 @@ RUN apt-get update \
 WORKDIR /5pmGebetServer
 COPY . .
 
-RUN test -z $(gofmt -l .) \
- && go test ./... \
+RUN go test ./... \
  && go vet -v ./...
 RUN go build -o 5pm.bin .
 
