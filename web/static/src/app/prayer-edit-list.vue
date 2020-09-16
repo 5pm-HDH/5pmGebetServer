@@ -1,9 +1,17 @@
 <template>
     <div>
-        <h3>Nicht bestätigt:</h3>
-        <prayer-edit-list-item v-for="item in notApprovedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
-        <h3>Bestätigt:</h3>
-        <prayer-edit-list-item v-for="item in approvedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
+        <div class="prayer-list-public">
+            <h3>bestätigt, öffentlich:</h3>
+            <prayer-edit-list-item v-for="item in approvedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
+        </div>
+        <div class="prayer-list-not-public">
+            <h3>bestätigt, nicht-öffentlich:</h3>
+            <prayer-edit-list-item v-for="item in approvedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
+        </div>
+        <div class="prayer-list-not-approved">
+            <h3>nicht bestätigt:</h3>
+            <prayer-edit-list-item v-for="item in notApprovedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
+        </div>
     </div>
 </template>
 
@@ -17,6 +25,20 @@
             };
         },
         computed: {
+            approvedPublicPrayerList: {
+                get(){
+                    return this.approvedPrayerList.filter( prayer => {
+                        return prayer.is_public;
+                    });
+                }
+            },
+            approvedNotPublicPrayerList: {
+                get(){
+                    return this.approvedPrayerList.filter( prayer => {
+                        return !prayer.is_public;
+                    });
+                }
+            },
             approvedPrayerList: {
                 get(){
                     return this.sortedPrayerList.filter( prayer => {

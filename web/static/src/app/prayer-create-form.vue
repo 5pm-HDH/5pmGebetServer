@@ -6,7 +6,7 @@
         
         <div class="float-left">
             <input type="checkbox" id="confirmField" v-model="isPublic">
-            <label class="label-inline" for="confirmField">Öffentlich (anonym) beten</label>
+            <label class="label-inline" for="confirmField">Öffentlich beten</label>
         </div>
         <br>
     </fieldset>

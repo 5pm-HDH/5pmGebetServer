@@ -1,5 +1,5 @@
 <template>
-<div style="border: 1px solid black; border-radius: 5px; box-shadow: 0 3px 3px rgba(0,0,0,0.2); padding: 4rem; margin-bottom: 2rem;">
+<div :class="{'prayer-item': true, 'prayer-item-is-edit': isEdit}" style="">
     <fieldset>
         <label for="prayer">Gebetanliegen - #{{ id }}</label>
         <textarea placeholder="Hi CJ …" id="prayer" v-model="prayer" :disabled="!isEdit"></textarea>
