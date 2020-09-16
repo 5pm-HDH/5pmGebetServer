@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --config vue.config.js",
-    "watch": "webpack --config vue.config.js --watch"
+    "watch": "webpack --config vue.config.js --watch",
+    "serve-test-fe": "php -S localhost:8080 -t . ",
+    "serve-test-backend": "php -S localhost:8000 -t ./test-backend/"
   },
   "author": "",
   "license": "ISC",
