@@ -27,7 +27,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   5pm:
-    image: 5pm:0.3
+    image: "5pmhdh/gebetserver:latest"
     container_name: 5pmServer
     environment:
       - PORT=8080
@@ -38,6 +38,6 @@ services:
       - /var/5pm:/data:consistent
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.5pm.rule=Host(`pray.5pm.zone`)"
+      - "traefik.http.routers.5pm.rule=(Host(`pray.5pm.zone`) || Host(`gebet.revwal.de`))"
       - "traefik.http.routers.5pm.entrypoints=websecure"
       - "traefik.http.routers.5pm.tls.certresolver=myresolver"
