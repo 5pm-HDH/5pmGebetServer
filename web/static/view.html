@@ -13,25 +13,44 @@
     <link rel="stylesheet" href="assets/css/main.css">
 
     <title>View Prayer</title>
+    <style>
+        @font-face {
+            font-family: AileronRegular;
+            src: url(assets/css/fonts/Aileron-Regular.otf);
+        }
+        @font-face {
+            font-family: AileronHeavy;
+            src: url(assets/css/fonts/Aileron-Heavy.otf);
+        }
+        @font-face {
+            font-family: Lunafreya;
+            src: url(assets/css/fonts/Lunafreya.ttf);
+        }
+
+        body{
+            font-family: AileronRegular;
+            font-size: 1.5rem;
+        }
+
+        .prayer-item{
+            opacity: 0;
+            -webkit-transition: opacity 1s ease-in-out;
+            -moz-transition: opacity 1s ease-in-out;
+            -ms-transition: opacity 1s ease-in-out;
+            -o-transition: opacity 1s ease-in-out;
+            transition: opacity 1s ease-in-out;
+        }
+        .show-prayer{
+            opacity: 1;
+        }
+    </style>
+    
 </head>
 <body style="padding: 4rem;">
     <div id="app">
         <notification></notification>
         <prayer-list></prayer-list>
     </div>
-    <style>
-    .prayer-item{
-        opacity: 0;
-        -webkit-transition: opacity 1s ease-in-out;
-        -moz-transition: opacity 1s ease-in-out;
-        -ms-transition: opacity 1s ease-in-out;
-        -o-transition: opacity 1s ease-in-out;
-        transition: opacity 1s ease-in-out;
-    }
-    .show-prayer{
-        opacity: 1;
-    }
-    </style>
     <script src="dist/main.js"></script>
 </body>
 </html>

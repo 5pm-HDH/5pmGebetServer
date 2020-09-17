@@ -11,10 +11,98 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        @font-face {
+            font-family: AileronRegular;
+            src: url(assets/css/fonts/Aileron-Regular.otf);
+        }
+        @font-face {
+            font-family: AileronHeavy;
+            src: url(assets/css/fonts/Aileron-Heavy.otf);
+        }
+        @font-face {
+            font-family: Lunafreya;
+            src: url(assets/css/fonts/Lunafreya.ttf);
+        }
+
+        body{
+            font-family: AileronRegular;
+        }
+
+        .heading-group{
+            width: 100%;
+        }
+        .heading-group > img{
+            width: 100%;
+        }
+        .textarea-title{
+            font-family: Lunafreya;
+            font-size: 12rem;
+            line-height: 0.5;
+        }
+        .textarea{
+            height: 14rem;
+        }
+        
+        .public-option-group{
+            display: flex;
+            justify-content: left;
+            align-items: center;
+        }
+        .public-option-text{
+            font-size: 2rem;
+            margin-left: 1.5rem;
+        }
+
+        .button-senden-group{
+            display: flex;
+            justify-content: center;
+        }
+        .button-senden{
+            background-color: #F6C254;
+            border-color: #F6C254;
+            font-size: 1.5rem;
+        }
+
+        /**** COPIED FROM THE WEB: ***/
+        
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative; display: inline-block; width: 60px; height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+           opacity: 0; width: 0; height: 0;
+        }
+
+        /* The slider */
+        .slider {   position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; -webkit-transition: .4s; transition: .4s;
+        }
+        .slider:before {
+            position: absolute; content: "";height: 26px; width: 26px; left: 4px; bottom: 4px;
+            background-color: white; -webkit-transition: .4s; transition: .4s;
+        }
+        input:checked + .slider { background-color: #F6C254; }
+        input:focus + .slider { box-shadow: 0 0 1px #F6C254; }
+        input:checked + .slider:before { -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px); transform: translateX(26px);
+        }
+        /* Rounded sliders */
+        .slider.round { border-radius: 34px; }
+        .slider.round:before { border-radius: 50%; } 
+
+
+    </style>
+    
     <title>Gebetsanliegen</title>
 </head>
-<body style="padding: 4rem;">
-    <h1>Gebetsanliegen</h1>
+<body style="padding: 2rem;">
+    <div class="heading-group">
+        <img src="assets/dein-gebet-schriftzug.svg">
+        <img src="assets/dein-gebet-schriftzug.svg">
+    </div>
     <div id="app">
         <notification></notification>
         <prayer-create-form></prayer-create-form>
