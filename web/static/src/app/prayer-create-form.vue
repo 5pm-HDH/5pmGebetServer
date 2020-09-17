@@ -1,16 +1,21 @@
 <template>
     <form>
     <fieldset>
-        <label for="commentField">Gebet</label>
-        <textarea placeholder="Gebetsanliegen" id="commentField" v-model="prayer"></textarea>
+        <label for="commentField" class="textarea-title">Gebet</label>
+        <textarea placeholder="" class="textarea" id="commentField" v-model="prayer"></textarea>
         
-        <div class="float-left">
-            <input type="checkbox" id="confirmField" v-model="isPublic">
-            <label class="label-inline" for="confirmField">Öffentlich beten</label>
+        <div class="public-option-group">
+            <label class="switch">
+                <input type="checkbox" id="confirmField" v-model="isPublic">
+                <span class="slider round"></span>
+            </label>
+            <label class="label-inline public-option-text" for="confirmField">Öffentlich beten</label>
         </div>
         <br>
     </fieldset>
-    <a class="button-primary button" v-on:click="sendForm">Senden</a>
+    <div class="button-senden-group">
+        <a class="button-primary button button-senden" v-on:click="sendForm">Senden</a>
+    </div>
     </form>
 
 </template>
