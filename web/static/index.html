@@ -28,14 +28,25 @@
         body{
             font-family: AileronRegular;
         }
+        @media (min-width: 700px){
+            body{
+                margin: 0 calc(50vw - 350px);
+            }
+        }
 
         .heading-group{
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
+            margin-top: 2rem;
+            margin-bottom: 8rem;
         }
         .heading-group > img{
-            width: 100%;
+            max-width: 180px;
         }
         .textarea-title{
+            display: none;
             font-family: Lunafreya;
             font-size: 12rem;
             line-height: 0.5;
@@ -59,9 +70,14 @@
             justify-content: center;
         }
         .button-senden{
-            background-color: #F6C254;
-            border-color: #F6C254;
+            background-color: #9bcc94;
+            border-color: #9bcc94;
             font-size: 1.5rem;
+            border-radius: 0;
+            font-family: AileronHeavy;
+        }
+        .info-text{
+            line-height: 2rem;
         }
 
         /**** COPIED FROM THE WEB: ***/
@@ -84,8 +100,8 @@
             position: absolute; content: "";height: 26px; width: 26px; left: 4px; bottom: 4px;
             background-color: white; -webkit-transition: .4s; transition: .4s;
         }
-        input:checked + .slider { background-color: #F6C254; }
-        input:focus + .slider { box-shadow: 0 0 1px #F6C254; }
+        input:checked + .slider { background-color: #9bcc94; }
+        input:focus + .slider { box-shadow: 0 0 1px #9bcc94; }
         input:checked + .slider:before { -webkit-transform: translateX(26px);
         -ms-transform: translateX(26px); transform: translateX(26px);
         }
@@ -100,8 +116,7 @@
 </head>
 <body style="padding: 2rem;">
     <div class="heading-group">
-        <img src="assets/dein-gebet-schriftzug.svg">
-        <img src="assets/dein-gebet-schriftzug.svg">
+        <img src="assets/5-pm-gebet.svg">
     </div>
     <div id="app">
         <notification></notification>

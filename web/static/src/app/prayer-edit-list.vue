@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div class="prayer-list-public">
-            <h3>bestätigt, öffentlich:</h3>
-            <prayer-edit-list-item v-for="item in approvedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
-        </div>
-        <div class="prayer-list-not-public">
-            <h3>bestätigt, nicht-öffentlich:</h3>
-            <prayer-edit-list-item v-for="item in approvedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
-        </div>
         <div class="prayer-list-not-approved">
             <h3>nicht bestätigt:</h3>
             <prayer-edit-list-item v-for="item in notApprovedPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
+        </div>
+        <div class="prayer-list-public">
+            <h3>bestätigt, öffentlich:</h3>
+            <prayer-edit-list-item v-for="item in approvedPublicPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
+        </div>
+        <div class="prayer-list-not-public">
+            <h3>bestätigt, nicht-öffentlich:</h3>
+            <prayer-edit-list-item v-for="item in approvedNotPublicPrayerList" :key="item.id" :data="item"></prayer-edit-list-item>
         </div>
     </div>
 </template>

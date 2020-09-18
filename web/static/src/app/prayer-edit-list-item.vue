@@ -5,11 +5,17 @@
         <textarea placeholder="Hi CJ …" id="prayer" v-model="prayer" :disabled="!isEdit"></textarea>
         <div class="float-right">
             <label class="label-inline" for="confirmField">Öffentlich</label>
-            <input type="checkbox" id="confirmField" v-model="isPublic" :disabled="!isEdit">
+            <label class="switch">
+                <input type="checkbox" id="confirmField" v-model="isPublic" :disabled="!isEdit">
+                <span class="slider round"></span>
+            </label>
         </div>
         <div class="float-right">
             <label class="label-inline" for="confirmField">Bestätigt</label>
-            <input type="checkbox" id="confirmField" v-model="approved"  :disabled="!isEdit">
+            <label class="switch">
+                <input type="checkbox" id="confirmField" v-model="approved"  :disabled="!isEdit">
+                <span class="slider round"></span>
+            </label>
         </div>     
     </fieldset>
     <a class="button" v-on:click="clickButton">{{ (isEdit ? 'Speichern' : 'Bearbeiten') }}</a>

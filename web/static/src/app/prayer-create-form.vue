@@ -13,6 +13,9 @@
         </div>
         <br>
     </fieldset>
+    <p class="info-text">
+        Dein Gebetsanliegen wird im Gottesdienst anonymisiert eingeblendet und gebetet. Für nicht öffentliche Anliegen beten Teams unter der Woche.
+    </p>
     <div class="button-senden-group">
         <a class="button-primary button button-senden" v-on:click="sendForm">Senden</a>
     </div>
