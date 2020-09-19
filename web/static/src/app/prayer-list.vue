@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="pray-container">
         <prayer-list-item v-for="item in sortedPrayerList" :key="item.id" :data="item"></prayer-list-item>
     </div>
 </template>

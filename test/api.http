@@ -7,11 +7,11 @@ GET http://localhost:80/api/key?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb
 Accept: application/json
 
 ###
-GET http://localhost:80/api?key=tWyV2KiZ1YFfqEUiBYg4g8sK3ot72nihkK9AMMZb
+GET http://localhost:8080/api?key=123456789
 Accept: application/json
 
 ###
-POST http://localhost:80/api
+POST http://localhost:8080/api
 Content-Type: application/json
 
 {

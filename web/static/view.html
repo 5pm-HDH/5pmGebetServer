@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
 
-    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
@@ -30,43 +30,100 @@
         body{
             font-family: AileronRegular;
             font-size: 1.5rem;
-            background: black;
-            }
-
-
+            background-image: url('assets/gebet_background.jpg');
+            background-size: 1920px 1080px;
+            margin: 0; height:100vh; overflow: hidden /* Hide everything that flows out of the columns*/
+        }
 
         em {
+            font-style: normal; /*revert font back to normal*/
+        }
 
-            font-style: normal;
+        img {
+            width: 24.5%;
+        }
+
+        /** default config for the prayer container
+        *   align the container to the right of the screen
+        *   fit to screen height and remove every overflowing items inside the container
+        **/
+        #pray-container {
+            float: right;
+            column-gap: 0;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .prayer-item{
+            /*used for fade in animation*/
             opacity: 0;
             -webkit-transition: opacity 1s ease-in-out;
             -moz-transition: opacity 1s ease-in-out;
             -ms-transition: opacity 1s ease-in-out;
             -o-transition: opacity 1s ease-in-out;
             transition: opacity 1s ease-in-out;
-            border-radius: 0.7em;
-            font-size: x-large;
-            background: #70b9a6;
-            border-color: #798BBD;
-            color: #222222;
-            padding: 1em;
-            margin: 2em;
 
+            /** box design **/
+            border-radius: 1.2em 1.2em 0 1.2em;
+            border: 0;
+            font-size: 40px;
+            background: white;
+            color: #222222;
+            padding: 0.6em;
+            margin: 0.7em;
+
+            /*used for automatic column flow*/
+            -webkit-column-break-inside: avoid;
+            page-break-inside: avoid; /* Firefox is dumb */
+            break-inside: avoid;
         }
+
+        /*used for animation*/
         .show-prayer{
             opacity: 1;
         }
+
+        /** Style for using the 9:16 Monitor
+         * 1 Column Design without image Logos
+        **/
+        @media (max-width:1200px) {
+            #pray-container {
+                width: 95%;
+                columns : 1;
+            }
+
+            body{
+                background-size: auto 100vh;
+                background-position: center;
+            }
+
+            img {
+                display: none;
+            }
+        }
+
+        /**
+        * Style for using the 16:9 big screen
+        * now using 2 columns
+        **/
+        @media (min-width:1200px) {
+            #pray-container {
+                width: 74%;
+                columns : 2;
+            }
+        }
+
+
+
     </style>
-    
+
 </head>
-<body style="padding: 4rem;">
-    <div id="app">
-        <notification></notification>
-        <prayer-list></prayer-list>
-    </div>
-    <script src="dist/main.js"></script>
+<body >
+<div id="app">
+    <notification></notification>
+    <img src="assets/gebet-n.svg" alt=none>
+    <prayer-list></prayer-list>
+</div>
+<script src="dist/main.js"></script>
 </body>
 </html>
