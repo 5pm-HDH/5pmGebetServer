@@ -56,17 +56,19 @@
 
         .prayer-item{
             /*used for fade in animation*/
-            opacity: 0;
-            -webkit-transition: opacity 1s ease-in-out;
+            opacity: 1;
+
+            /* -webkit-transition: opacity 1s ease-in-out;
             -moz-transition: opacity 1s ease-in-out;
             -ms-transition: opacity 1s ease-in-out;
             -o-transition: opacity 1s ease-in-out;
             transition: opacity 1s ease-in-out;
+            */
 
             /** box design **/
             border-radius: 1.2em 1.2em 0 1.2em;
             border: 0;
-            font-size: 40px;
+            font-size: 35px;
             background: white;
             color: #222222;
             padding: 0.6em;
@@ -76,6 +78,9 @@
             -webkit-column-break-inside: avoid;
             page-break-inside: avoid; /* Firefox is dumb */
             break-inside: avoid;
+        }
+        .prayer-item:nth-of-type(odd) {
+            background: #e5e5e5;
         }
 
         /*used for animation*/
@@ -88,15 +93,21 @@
         **/
         @media (max-width:1200px) {
             #pray-container {
-                width: 95%;
+                width: 100%;
                 columns : 1;
+                float: none;
             }
 
             body{
+                font-family: AileronHeavy;
                 background-size: auto 100vh;
                 background-position: center;
             }
-
+            .prayer-item{
+              font-size: 50px;
+                margin-right: 1.8em;
+                margin-left:  1.8em;
+            }
             img {
                 display: none;
             }
